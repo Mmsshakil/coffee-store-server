@@ -104,11 +104,22 @@ async function run() {
         });
 
         // read all user data "R"
-        app.get('/user', async(req, res) =>{
+        app.get('/user', async (req, res) => {
             const cursor = userCollection.find();
             const users = await cursor.toArray();
             res.send(users);
         })
+
+
+        // delete a user "D"
+        app.delete('/user/:id', async(req, res) =>{
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await userCollection.deleteOne(query);
+            res.send(result);
+        })
+
+
 
 
         // ------------------------------------------------
