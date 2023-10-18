@@ -34,8 +34,9 @@ async function run() {
         await client.connect();
 
         const coffeeCollection = client.db("coffeeDB").collection('coffee');
+        const userCollection = client.db("coffeeDB").collection('user');
 
-        // here we will read the newcoffee "R"
+        // here we will read all the newcoffee "R"
         app.get('/coffee', async (req, res) => {
             const cursor = coffeeCollection.find();
             const result = await cursor.toArray();
@@ -92,6 +93,26 @@ async function run() {
         })
         // --------------------------------------------------------------
 
+        // --------------------USER API and DATABASE----------------------------
+        // ------------------------------------------------
+        // create user and "C"
+        app.post('/user', async (req, res) => {
+            const user = req.body;
+            console.log(user);
+            const result = await userCollection.insertOne(user);
+            res.send(result);
+        });
+
+        // read all user data "R"
+        app.get('/user', async(req, res) =>{
+            const cursor = userCollection.find();
+            const users = await cursor.toArray();
+            res.send(users);
+        })
+
+
+        // ------------------------------------------------
+        // ------------------------------------------------
 
 
 
